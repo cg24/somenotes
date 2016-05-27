@@ -1,0 +1,16 @@
+在学习只有20行Javascript代码！手把手教你写一个页面模板引擎这篇帖子时看到评论中有人问道如下问题：
+var re = /{{([^}}]+)?}}/g, tpl = ‘{{name}}{{price}}’;
+var data = {name:’电视机’, price:’200′};
+while(match = re.exec(tpl)) {
+tpl = tpl.replace(match[0], data[match[1]])
+}
+console.log(tpl)
+电视机{{price}}
+为什么上面的代码，只能匹配一次
+
+经过分析发现之所以只匹配一次是以为在执行一次while循环后
+tpl 字符串变为了"电视机{{price}}",
+而此时re正则对象的lastIndex值为8,
+由于该正则对象有全局匹配修饰符g,
+所以再次调用该对象的exec方法时是从lastIndex对应的下标开始匹配的，即第二次从8个字符开始匹配即字母c,所以第二次匹配不到{{price}}
+整个代码只能匹配一次。
